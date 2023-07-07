@@ -1,6 +1,6 @@
 {
-  "name": "template",
-  "version": "0.0.0",
+  "name": "homework-rest-api",
+  "version": "0.0.1node -version",
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
