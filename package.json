@@ -1,6 +1,6 @@
 {
   "name": "homework-rest-api",
-  "version": "0.0.1node -version",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./server.js",
