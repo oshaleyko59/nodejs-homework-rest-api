@@ -14,7 +14,7 @@ const router = Router();
 
 router.get("/", contactsController.getAll);
 
-router.get("/:contactId", contactsController.getById);
+router.get("/:id", contactsController.getById);
 
 /**
  *  validation of body presence of required fields
@@ -22,14 +22,16 @@ router.get("/:contactId", contactsController.getById);
  */
 router.post("/", validateBody(contactsSchemas.contactsAddSchema), contactsController.add);
 
-router.delete("/:contactId", contactsController.deleteById);
+
+router.delete("/:id", contactsController.deleteById);
 
 /**
- *  validation of body not empty and format of fields //TODO: check for unsupported fields ?
+ *  validation of body (not empty) and format of fields
+ *    //TODO: check for unsupported fields ?
  *   if fails, error {"message": "missing required name field"} &status 400
  */
 router.put(
-	"/:contactId",
+	"/:id",
 	isEmptyBody,
 	validateBody(contactsSchemas.contactsUpdateSchema),
 	contactsController.updateById
@@ -38,7 +40,7 @@ router.put(
 export default router;
 
 /* NB! router.METHOD(path, [callback, ...] callback)
- You can provide multiple callbacks, and all are treated equally,
+  You can provide multiple callbacks, and all are treated equally,
 and behave just like middleware, except that these callbacks may invoke
 next('route') to bypass the remaining route callback(s). You can use this
 mechanism to perform pre-conditions on a route then pass control to subsequent

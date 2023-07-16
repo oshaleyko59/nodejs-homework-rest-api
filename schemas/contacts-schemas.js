@@ -3,32 +3,21 @@
  */
 
 import Joi from "joi";
-/*
-// TODO: test more complex variants
-const schemaEmail = Joi.string().email().trim();
-const schemaPhoneNumber = Joi.string().trim().pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/);
-const schemaName = Joi.string().trim(); // TODO: parse and join
- */
+
+const schemaPhoneNumber = Joi.string().pattern(
+  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+).message("phone number does not meet the required pattern");
+
 /**
  * body must be an object {name, email, phone}.
  * All fields required
  * {"message": "missing required name field"} і статусом 400
  */
 const contactsAddSchema = Joi.object({
-	name: Joi.string().required().messages({
-		"any.required": "missing required field",
-	}),
-	email: Joi.string().required(),
-	phone: Joi.string().required(),
-});
-/* const contactsAddSchema = Joi.object({
-	name: schemaName.required().messages({
-		"any.required": "missing required field",
-	}),
-	email: schemaEmail.required(),
+	name: Joi.string().required(),
+	email: Joi.string().email().required(),
 	phone: schemaPhoneNumber.required(),
 });
- */
 
 
 /**
@@ -38,18 +27,9 @@ const contactsAddSchema = Joi.object({
  */
 const contactsUpdateSchema = Joi.object({
 	name: Joi.string(),
-	email: Joi.string(),
-	phone: Joi.string(),
-});
-
-/* const contactsUpdateSchema = Joi.object({
-	name: schemaName,
-	email: schemaEmail,
+	email: Joi.string().email(),
 	phone: schemaPhoneNumber,
-})
-	.empty()
-	.error("missing fields");
- */
+});
 
 export default {
 	contactsAddSchema,

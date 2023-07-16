@@ -7,7 +7,8 @@ const messageList = { // TODO: , maybe other codes?
 };
 
 const HttpError = (status, message) => {
-	const error = new Error(messageList[status] + message && (': '+message));
+  const msg = messageList[status].concat(message && (": " + message));
+	const error = new Error(msg);
 	error.status = status;
 	return error;
 };
