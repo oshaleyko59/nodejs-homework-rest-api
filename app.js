@@ -1,25 +1,40 @@
-const express = require('express')
-const logger = require('morgan')
-const cors = require('cors')
+// У app.js - веб сервер на express і прошарки morgan і cors.
+import express, { json } from "express";
+import logger from "morgan";
+import cors from "cors";
 
-const contactsRouter = require('./routes/api/contacts')
+// set of route handlers
+import contactsRouter from "./routes/api/contacts.js";
 
-const app = express()
+const app = express();
 
-const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
-app.use(logger(formatsLogger))
-app.use(cors())
-app.use(express.json())
+// middlewares
+app.use(logger(formatsLogger));
+app.use(cors());
+app.use(json());
 
-app.use('/api/contacts', contactsRouter)
+app.use((req, res, next) => {
+	console.log("CONSOLE EVERY REQ>>", req.params, req.body);
+	next();
+});
 
+// router for "/api/contacts" endpoint
+app.use("/api/contacts", contactsRouter);
+
+// "not found" handler
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
-})
+	console.log("NOT FOUND>>req.param", req.params, req.body);
+	res.status(404).json({ message: "Not found" });
+});
 
+// error handler
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
-})
+	// 500 and "Server error" are default values
+	const { status = 500, message = "Server error" } = err;
+	res.status(status).json({ message });
+});
 
-module.exports = app
+export default app;
+
