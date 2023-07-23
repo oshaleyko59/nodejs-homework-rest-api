@@ -4,7 +4,7 @@ import logger from "morgan";
 import cors from "cors";
 
 // set of route handlers
-import contactsRouter from "./routes/api/contacts.js";
+import contactsRouter from "./routes/api/contacts-router.js";
 
 const app = express();
 
