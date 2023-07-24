@@ -15,6 +15,6 @@ mongoose
 		});
 	})
 	.catch((error) => {
-		console.error(error.message);
+		console.error(`Connection to db-contacts failed: ${error.message}`);
 		process.exit(1); // stop processes
 	});

@@ -3,10 +3,9 @@
  */
 
 import Joi from "joi";
+import { contactsRegexp } from "../constants/contacts-constants.js";
 
-const schemaPhoneNumber = Joi.string().pattern(
-  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-).message("phone number does not meet the required pattern");
+const schemaPhoneNumber = Joi.string().pattern(contactsRegexp).message("phone number does not meet the required pattern");
 
 /**
  * body must be an object {name, email, phone}.
@@ -16,22 +15,31 @@ const schemaPhoneNumber = Joi.string().pattern(
 const contactsAddSchema = Joi.object({
 	name: Joi.string().required(),
 	email: Joi.string().email().required(),
-	phone: schemaPhoneNumber.required(),
+  phone: schemaPhoneNumber.required(),
+  favorite: Joi.boolean(),
 });
 
 
 /**
  * body must be an object with at least one of the keys:
- *      "name", "email", "phone"
- * Якщо body немає, повертає json {"message": "missing fields"} і статусом 400
+ *      "name", "email", "phone", "favorite"
  */
 const contactsUpdateSchema = Joi.object({
 	name: Joi.string(),
 	email: Joi.string().email(),
 	phone: schemaPhoneNumber,
+	favorite: Joi.boolean(),
+});
+
+/**
+ * for updating favorite field
+ */
+const contactUpdateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
 });
 
 export default {
 	contactsAddSchema,
 	contactsUpdateSchema,
+	contactUpdateFavoriteSchema,
 };
