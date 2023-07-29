@@ -4,6 +4,7 @@ import logger from "morgan";
 import cors from "cors";
 
 // set of route handlers
+import authRouter from "./routes/api/auth-router.js";
 import contactsRouter from "./routes/api/contacts-router.js";
 
 const app = express();
@@ -20,6 +21,9 @@ app.use((req, res, next) => {
 	next();
 });
 
+// router for user authentication
+app.use("/api/users", authRouter);
+
 // router for "/api/contacts" endpoint
 app.use("/api/contacts", contactsRouter);
 
@@ -31,7 +35,6 @@ app.use((req, res) => {
 
 // error handler
 app.use((err, req, res, next) => {
-	// 500 and "Server error" are default values
 	const { status = 500, message = "Server error" } = err;
 	res.status(status).json({ message });
 });

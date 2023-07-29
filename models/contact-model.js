@@ -18,6 +18,10 @@ const contactSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
+  owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user', // назва колекції, у якій зберігаються користувачі
+  }
 }, {versionKey: false, timestamps:true});
 
 // to validate before update
