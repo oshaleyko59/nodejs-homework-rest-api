@@ -1,9 +1,9 @@
 import express from "express";
 
 import authController from "../../controllers/auth-controller.js";
-import  validateBody  from "../../decorators/validateBody.js";
+import validateBody from "../../decorators/validateBody.js";
 import usersSchemas from "../../schemas/users-schemas.js";
-import  authenticate  from "../../middlewares/authenticate.js";
+import authenticate from "../../middlewares/authenticate.js";
 
 const authRouter = express.Router();
 
@@ -22,5 +22,12 @@ authRouter.post(
 authRouter.get("/current", authenticate, authController.getCurrent);
 
 authRouter.post("/logout", authenticate, authController.logout);
+
+authRouter.patch(
+	"/",
+	authenticate,
+	validateBody(usersSchemas.userSubscriptionSchema),
+	authController.updateSubscription
+);
 
 export default authRouter;

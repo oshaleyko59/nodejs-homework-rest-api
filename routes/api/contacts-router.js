@@ -1,17 +1,5 @@
 /**
- * HW4: //TODO:
- * У нас з'явилося в контактах додаткове поле статусу favorite(true/false).
- * Потрібно реалізувати для оновлення статусу контакту новий роутер:
-
-  @ PATCH / api / contacts /: contactId / favorite
-    -Отримує параметр contactId
-    - Отримує body в json-форматі c оновленням поля favorite
-    - Якщо body немає=>json {"message": "missing field favorite"} і статус 400
-    - Якщо body ok, викликає updateStatusContact (contactId, body) (напиши її)
-    - повертає оновлений об'єкт і статус 200, або {"message":"Not found"} і 404
-
-    TODO: npm run lint — запустити виконання перевірки коду з eslint,
-    необхідно виконувати перед кожним PR та виправляти всі помилки
+  HW5: authenticate added
  */
 
 /**
@@ -26,8 +14,10 @@ import contactsSchemas from "../../schemas/contacts-schemas.js";
 import validateBody from "../../decorators/validateBody.js";
 import isEmptyBody from "../../middlewares/isEmptyBody.js";
 import isValidId from "../../middlewares/isValidId.js";
+import authenticate from "../../middlewares/authenticate.js";
 
 const router = Router();
+router.use(authenticate);
 
 router.get("/", contactsController.getAll);
 

@@ -23,6 +23,7 @@ const authenticate = async (req, res, next) => {
 			throw HttpError(401, "Not authorized");
     }
     // fourth, save user in request for further needs
+    console.debug("user>>", user);
 		req.user = user;
 		next();
 	} catch (error) {

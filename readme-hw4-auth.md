@@ -20,17 +20,20 @@ RequestBody: {
   "email": "example@example.com",
   "password": "examplepassword"
 }
-Registration validation error
+
+   # Registration validation error
 Status: 400 Bad Request
 Content-Type: application/json
 ResponseBody: <Помилка від Joi або іншої бібліотеки валідації>
-Registration conflict error
+
+   # Registration conflict error
 Status: 409 Conflict
 Content-Type: application/json
 ResponseBody: {
   "message": "Email in use"
 }
-Registration success response
+
+   # Registration success response
 Status: 201 Created
 Content-Type: application/json
 ResponseBody: {
@@ -57,12 +60,12 @@ RequestBody: {
   "password": "examplepassword"
 }
 
-Login validation error
+   # Login validation error
 Status: 400 Bad Request
 Content-Type: application/json
 ResponseBody: <Помилка від Joi або іншої бібліотеки валідації>
 
-Login success response
+   # Login success response
 Status: 200 OK
 Content-Type: application/json
 + ResponseBody: {
@@ -101,15 +104,15 @@ Logout request
 POST /users/logout
 Authorization: "Bearer {{token}}"
 
-Logout unauthorized error
+   # Logout unauthorized error
 Status: 401 Unauthorized
 Content-Type: application/json
 ResponseBody: {
   "message": "Not authorized"
 }
 
-    + Logout success response
-    + Status: 204 No Content
+   # Logout success response
+   Status: 204 No Content
 
 # Крок 5 Поточний користувач - отримати дані юзера по токені
 
@@ -120,14 +123,14 @@ Current user request
 GET /users/current
 Authorization: "Bearer {{token}}"
 
-Current user unauthorized error
+   # Current user unauthorized error
 Status: 401 Unauthorized
 Content-Type: application/json
 ResponseBody: {
   "message": "Not authorized"
 }
 
-Current user success response
+   # Current user success response
 Status: 200 OK
 Content-Type: application/json
 ResponseBody: {
@@ -137,8 +140,8 @@ ResponseBody: {
 
 # Додаткове завдання - необов'язкове
 
-Зробити пагінацію для колекції контактів (GET /contacts?page=1&limit=20).
+   # Зробити пагінацію для колекції контактів (GET /contacts?page=1&limit=20).
 
-Зробити фільтрацію контактів по полю обраного (GET /contacts?favorite=true)
+   # Зробити фільтрацію контактів по полю обраного (GET /contacts?favorite=true)
 
-Оновлення підписки (subscription) користувача через ендпоінт PATCH /users. Підписка повинна мати одне з наступних значень ['starter', 'pro', 'business']
+   # Оновлення підписки (subscription) користувача через ендпоінт PATCH /users. Підписка повинна мати одне з наступних значень ['starter', 'pro', 'business']

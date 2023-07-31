@@ -11,7 +11,7 @@ const register = async (req, res) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
 	if (user) {
-		throw HttpError(409, "Conflict");
+		throw HttpError(409, "Email in use"); // Conflict
 	}
 
 	const hashPassword = await bcrypt.hash(password, 10);
@@ -78,9 +78,20 @@ const logout = async (req, res) => {
 	});
 };
 
+/**
+ * update subscription
+ */
+const updateSubscription = async (req, res) => {
+		const { _id } = req.user;
+	const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
+
+	res.json(result);
+};
+
 export default {
 	register: ctrlWrapper(register),
 	login: ctrlWrapper(login),
 	getCurrent: ctrlWrapper(getCurrent),
 	logout: ctrlWrapper(logout),
+	updateSubscription: ctrlWrapper(updateSubscription),
 };
