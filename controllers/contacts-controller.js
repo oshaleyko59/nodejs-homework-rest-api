@@ -1,6 +1,5 @@
 /**
- * HW4: У функціях обробки запитів заміни код CRUD-операцій над контактами з файлу,
- * на Mongoose-методи для роботи з колекцією контактів в базі даних.
+ * HW4: owner field is added and used as filter for
  */
 
 import Contact from "../models/contact-model.js";
@@ -13,7 +12,17 @@ import ctrlWrapper from "../decorators/controllerWrapper.js";
  * @param {*} res повертає масив всіх контактів в json-форматі зі статусом 200
  */
 const getAll = async (req, res) => {
-	const result = await Contact.find({}, "-createdAt -updatedAt -__v"); // vs find()
+	const { _id: owner } = req.user;
+	const { page = 1, limit = 20, favorite } = req.query;
+	const skip = (page - 1) * limit;
+  const filter = { owner };
+  if (favorite !== undefined) { filter.favorite = favorite };
+	const result = await Contact.find(
+		filter,
+		"-createdAt -updatedAt -__v",
+		{ skip, limit }
+	);
+	// NB! to enhance owner: 	const result = await Contact.find({owner}, "-createdAt -updatedAt -__v").populate("owner");
 	res.json(result);
 };
 
@@ -38,7 +47,8 @@ const getById = async (req, res) => {
  * @param {*} res повертає об'єкт з id {id, name, email, phone} і статусом 201
  */
 const add = async (req, res) => {
-	const result = await Contact.create(req.body);
+	const { _id: owner } = req.user;
+	const result = await Contact.create({ ...req.body, owner });
 	res.status(201).json(result);
 };
 
@@ -55,7 +65,7 @@ const deleteById = async (req, res) => {
 		throw HttpError(404, `id=${id}`);
 	}
 	res.json(result);
-}
+};
 
 /**
  * Викликає Contact.findByIdAndUpdate
@@ -67,8 +77,7 @@ const deleteById = async (req, res) => {
 const updateById = async (req, res) => {
 	const { id } = req.params;
 	const result = await Contact.findByIdAndUpdate(id, req.body, {
-		new: true,
-	//	runValidators: true, //NB! moved to pre hook in contact-model
+		new: true, // =return updated
 	});
 	if (!result) {
 		throw HttpError(404, `id=${id}`);
@@ -80,13 +89,13 @@ const updateById = async (req, res) => {
  * same as updateById
  */
 const updateFavorite = async (req, res) => {
-  const { id } = req.params;
-  const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
-  if (!result) {
+	const { id } = req.params;
+	const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+	if (!result) {
 		throw HttpError(404, `id=${id}`);
 	}
 	res.json(result);
-}
+};
 
 export default {
 	getAll: ctrlWrapper(getAll),
