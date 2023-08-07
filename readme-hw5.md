@@ -22,20 +22,20 @@
 
 // FIXME: test
 avatar upload from postman
-- Запит
++ Запит
 PATCH /users/avatars
 Content-Type: multipart/form-data
 Authorization: "Bearer {{token}}"
 RequestBody: завантажений файл
 
-- Успішна відповідь
++ Успішна відповідь
 Status: 200 OK
 Content-Type: application/json
 ResponseBody: {
   "avatarURL": "тут буде посилання на зображення"
 }
 
-- Неуспішна відповідь
++ Неуспішна відповідь
 Status: 401 Unauthorized
 Content-Type: application/json
 ResponseBody: {

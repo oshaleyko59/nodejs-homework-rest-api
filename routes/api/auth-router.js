@@ -34,9 +34,10 @@ authRouter.patch(
 /* Додай можливість поновлення аватарки, створивши
  ендпоінт /users/avatars і використовуючи метод PATCH. */
 authRouter.patch(
-	"/avatars", upload.single("avatar"),
+	"/avatars",
 	authenticate,
- // FIXME:	validateBody(usersSchemas.userAvatarSchema),
+	upload.single("avatarURL"),
+	// FIXME:	validateBody(usersSchemas.userAvatarSchema),
 	authController.updateAvatar
 );
 

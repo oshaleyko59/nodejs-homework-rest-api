@@ -12,10 +12,10 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 // middlewares
-app.use(express.static("public"));
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(json());
+app.use(express.static("public"));
 
 app.use((req, res, next) => {
 	console.log("CONSOLE EVERY REQ>>", req.params, req.body);
