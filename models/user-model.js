@@ -22,11 +22,12 @@ const userSchema = new Schema(
 			default: "starter",
 		},
 		token: String,
-    avatarURL: String,
-    verified: {type:Boolean, default: false},
-    verificationToken: {
-      type: String, required: [true, 'Verification token is required']
-    }
+		avatarURL: String,
+		verified: { type: Boolean, default: false },
+		verificationToken: {
+			type: String,
+			required: [true, "Verification token is required"],
+		},
 	},
 	{ versionKey: false, timestamps: true }
 );

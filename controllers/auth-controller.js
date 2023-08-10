@@ -34,13 +34,13 @@ const register = async (req, res) => {
 		password: hashPassword,
 		avatarURL,
 		verificationToken,
-  });
+	});
 
 	/* відправити email на пошту користувача і вказати посилання для
   верифікації email'а  ( /users/verify/:verificationToken) в повідомленні */
-  // TODO:
-  const verifyEmail = createVerifyEmail({ email, verificationToken });
-  await sendEmail(verifyEmail);
+	// TODO:
+	const verifyEmail = createVerifyEmail({ email, verificationToken });
+	await sendEmail(verifyEmail);
 
 	res.status(201).json(
 		/* "Успішна відповідь" */
@@ -53,43 +53,47 @@ const register = async (req, res) => {
 	);
 };
 
-
 const resendVerifyEmail = async (req, res) => {
-  const { email } = req.body;
-  // check if user exists
+	const { email } = req.body;
+	// check if user exists
 	const user = await User.findOne({ email });
 	if (!user) {
 		throw HttpError(404, "Email not found");
-  }
+	}
 
 	// check if already verified
-  if (user.verified) {
-    throw HttpError(400, "Verification has already passed");
-  }
+	if (user.verified) {
+		throw HttpError(400, "Verification has already passed");
+	}
 
 	// create verify email
 	const verifyEmail = createVerifyEmail({
 		email,
 		verificationToken: user.verificationToken,
-  });
-  await sendEmail(verifyEmail);
-  
-  res.json({
+	});
+	await sendEmail(verifyEmail);
+
+	res.json({
 		message: "Verification email sent",
 	});
 };
 
+// http://localhost:3000/api/users/verify/ar4788M4TmPFMQSbSjj30
 const verify = async (req, res) => {
 	const { verificationToken } = req.params;
+
 	const user = await User.findOne({ verificationToken });
 	if (!user) {
 		throw HttpError(404, "Email not found");
 	}
 
-	await User.findByIdAndUpdate(user._id, {
-		verified: true,
-		verificationToken: null,
-  });
+	await User.findByIdAndUpdate(
+		user._id,
+		{
+			verified: true,
+			verificationToken: 'used',
+		}
+	);
 
 	res.json({
 		message: "Verification successful",
@@ -103,7 +107,7 @@ const login = async (req, res) => {
 		throw HttpError(401, "Email or password invalid");
 	}
 
-  // login not allowed if user 's email not verified
+	// login not allowed if user 's email not verified
 	if (!user.verified) {
 		throw HttpError(401, "Email not verified");
 	}

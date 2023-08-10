@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
 const { UKRNET_EMAIL, UKRNET_PASSWORD } = process.env;
-console.log("credentials>>", UKRNET_EMAIL, UKRNET_PASSWORD);
 
 const nodemailerConfig = {
 	host: "smtp.ukr.net",
@@ -20,6 +19,8 @@ const sendEmail = async (data) => {
 	return transporter.sendMail(email);
 };
 
+export default sendEmail;
+
 // test
 /* transporter
 	.sendMail({
@@ -30,5 +31,3 @@ const sendEmail = async (data) => {
 	})
 	.then((info) => console.log("sendMail>>", info))
 	.catch((err) => console.log("sendMail>>", err)); */
-
-export default sendEmail;
