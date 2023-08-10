@@ -5,7 +5,7 @@ import { emailRegexp } from "../constants/user-constants.js";
 const userRegisterSchema = Joi.object({
 	email: Joi.string().pattern(emailRegexp).required(),
 	password: Joi.string().min(6).required(),
-	avatarURL: Joi.string()
+	avatarURL: Joi.string(),
 });
 
 const userSigninSchema = Joi.object({
@@ -17,13 +17,13 @@ const userSubscriptionSchema = Joi.object({
 	subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
 
-const userAvatarUrlSchema = Joi.object({
-	avatarURL: Joi.string(),
+const userEmailSchema = Joi.object({
+	email: Joi.string().required,
 });
 
 export default {
 	userRegisterSchema,
 	userSigninSchema,
 	userSubscriptionSchema,
-	userAvatarUrlSchema, // TODO: check the behaivior
+	userEmailSchema,
 };

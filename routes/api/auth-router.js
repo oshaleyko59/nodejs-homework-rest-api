@@ -22,6 +22,11 @@ authRouter.post(
 
 authRouter.get("/current", authenticate, authController.getCurrent);
 
+// resend verification email TODO:
+authRouter.post("/verify", validateBody(usersSchemas.userEmailSchema), authController.resendVerifyEmail)
+// verify email via link with verification token
+authRouter.get("/verify/:verificationToken", authController.verify);
+
 authRouter.post("/logout", authenticate, authController.logout);
 
 authRouter.patch(
@@ -37,7 +42,6 @@ authRouter.patch(
 	"/avatars",
 	authenticate,
 	upload.single("avatarURL"),
-	// FIXME:	validateBody(usersSchemas.userAvatarSchema),
 	authController.updateAvatar
 );
 

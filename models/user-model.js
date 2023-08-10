@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 import { handleSaveError, validateAtUpdate } from "./hooks.js";
 
 import { emailRegexp } from "../constants/user-constants.js";
+import { boolean } from "joi";
 
 const userSchema = new Schema(
 	{
@@ -23,7 +24,11 @@ const userSchema = new Schema(
 			default: "starter",
 		},
 		token: String,
-		avatarURL: String,
+    avatarURL: String,
+    verified: {type:boolean, default: false},
+    verificationToken: {
+      type: String, required: [true, 'Verification token is required']
+    } 
 	},
 	{ versionKey: false, timestamps: true }
 );
