@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 import { handleSaveError, validateAtUpdate } from "./hooks.js";
-
 import { emailRegexp } from "../constants/user-constants.js";
 
 const userSchema = new Schema(
@@ -24,6 +23,11 @@ const userSchema = new Schema(
 		},
 		token: String,
 		avatarURL: String,
+		verified: { type: Boolean, default: false },
+		verificationToken: {
+			type: String,
+			required: [true, "Verification token is required"],
+		},
 	},
 	{ versionKey: false, timestamps: true }
 );
