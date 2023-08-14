@@ -84,7 +84,7 @@ const verify = async (req, res) => {
 
 	const user = await User.findOne({ verificationToken });
 	if (!user) {
-		throw HttpError(404, "Email not found");
+		throw HttpError(404, "");
 	}
 
 	await User.findByIdAndUpdate(

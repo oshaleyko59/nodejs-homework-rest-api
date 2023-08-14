@@ -20,12 +20,12 @@
 Verification request
 GET /auth/verify/:verificationToken
 
-- Verification user Not Found TODO: Test
++ Verification user Not Found T
 Status: 404 Not Found
 ResponseBody: {
   message: 'User not found'
 }
-- Verification success response  TODO:
++ Verification success response
 Status: 200 OK
 ResponseBody: {
   message: 'Verification successful',
@@ -35,15 +35,15 @@ ResponseBody: {
 Додавання відправки email користувачу з посиланням для верифікації
 При створення користувача при реєстрації:
    # створити verificationToken для користувача і записати його в БД (для генерації токена використовуйте пакет uuid або nanoid)
-TODO: відправити email на пошту користувача і вказати посилання для верифікації email'а ( /users/verify/:verificationToken) в повідомленні
+   # відправити email на пошту користувача і вказати посилання для верифікації email'а ( /users/verify/:verificationToken) в повідомленні
    # необхідно враховувати, що тепер логін користувача не дозволено, якщо не верифікувано email
 
 Крок 4
 Додавання повторної відправки email користувачу з посиланням для верифікації @ POST /users/verify
 Отримує body в форматі {email}
-- Якщо в body немає обов'язкового поля email, повертає json з ключем {"message":"missing required field email"} і статусом 400
-- Якщо з body все добре, виконуємо повторну відправку листа з verificationToken на вказаний email, але тільки якщо користувач не верифікований
-- Якщо користувач вже пройшов верифікацію відправити json з ключем {"message":"Verification has already been passed"} зі статусом 400 Bad Request
++ Якщо в body немає обов'язкового поля email, повертає json з ключем {"message":"missing required field email"} і статусом 400
++ Якщо з body все добре, виконуємо повторну відправку листа з verificationToken на вказаний email, але тільки якщо користувач не верифікований
++ Якщо користувач вже пройшов верифікацію відправити json з ключем {"message":"Verification has already been passed"} зі статусом 400 Bad Request
 
 Resending a email request
 POST /users/verify
@@ -52,19 +52,19 @@ RequestBody: {
   "email": "example@example.com"
 }
 
-- email validation error
++ email validation error
 Status: 400 Bad Request
 Content-Type: application/json
 ResponseBody: <Помилка від Joi або іншої бібліотеки валідації>
 
 Resending a email success response
-- Status: 200 Ok
++ Status: 200 Ok
 Content-Type: application/json
 ResponseBody: {
   "message": "Verification email sent"
 }
 Resend request for verified user
-- Status: 400 Bad Request
++ Status: 400 Bad Request
 Content-Type: application/json
 ResponseBody: {
   message: "Verification has already been passed"
